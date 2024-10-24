@@ -1,1 +1,51 @@
+version: '3'
+services:
+  nginx:
+      image: nginx:latest
+      restart: unless-stopped
+      tty: true
+      volumes:
+        - ./nginx.conf:/etc/nginx/conf.d/my-app.conf
+        - ./logs/nginx:/var/log/nginx
+        - ./nginx-logrotate.conf:/etc/logrotate.d/nginx-logrotate.conf
+      ports:
+        - "80:80"
+      depends_on:
+        - fe-shopapp
+  fe-shopapp:
+    image: huytg/feshopapp
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "4200:4200"
+  be-shopapp:
+    image: huytg/shopapp:latest
+    ports:
+      - "8080:8080"
+    environment:
+      MYSQL_HOST: db_shopapp
+      MYSQL_PORT: 3306
+      MYSQL_USER: huytg
+      MYSQL_PASSWORD: EXE201
+      MYSQL_DATABASE: shopapp
+    depends_on:
+      - db_shopapp
+    volumes:
+      - /root/images:/app/uploads
+
+  db_shopapp:
+    image: mysql:latest
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: EXE201
+      MYSQL_DATABASE: shopapp
+      MYSQL_USER: huytg
+      MYSQL_PASSWORD: EXE201
+    volumes:
+      - mysql-data:/var/lib/mysql
+volumes:
+  mysql-data:
 
