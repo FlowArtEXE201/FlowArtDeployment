@@ -12,6 +12,7 @@ services:
       - "80:80"
     depends_on:
       - fe-shopapp
+      - be-shopapp
     networks:
       - mynetwork
   fe-shopapp:
@@ -22,20 +23,19 @@ services:
       - "4200:4200"
     networks:
       - mynetwork
-  be-sharkauction:
-    image: phuctth/sharkauction
-    restart: unless-stopped
-    tty: true
-    depends_on:
-      - db-sharkauction
+  be-shopapp:
+    image: huytg/shopapp:latest
+    ports:
+      - "8080:8080"
     environment:
       MYSQL_HOST: 34.92.182.137
       MYSQL_PORT: 3306
-      MYSQL_USER: phuctth
+      MYSQL_USER: huytg
       MYSQL_PASSWORD: EXE201
-      MYSQL_DATABASE: sharkauction
+      MYSQL_DATABASE: shopapp
     volumes:
       - /root/images:/app/uploads
-      - ./logs/be-sharkauction:/var/log
+    networks:
+      - mynetwork
 networks:
   mynetwork:
