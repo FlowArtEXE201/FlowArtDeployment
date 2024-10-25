@@ -22,5 +22,20 @@ services:
       - "4200:4200"
     networks:
       - mynetwork
+  be-sharkauction:
+    image: phuctth/sharkauction
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - db-sharkauction
+    environment:
+      MYSQL_HOST: 34.92.182.137
+      MYSQL_PORT: 3306
+      MYSQL_USER: phuctth
+      MYSQL_PASSWORD: EXE201
+      MYSQL_DATABASE: sharkauction
+    volumes:
+      - /root/images:/app/uploads
+      - ./logs/be-sharkauction:/var/log
 networks:
   mynetwork:
