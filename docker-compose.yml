@@ -12,7 +12,6 @@ services:
       - "80:80"
     depends_on:
       - fe-shopapp
-      - be-shopapp
     networks:
       - mynetwork
   fe-shopapp:
