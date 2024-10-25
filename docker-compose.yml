@@ -14,5 +14,13 @@ services:
       - fe-shopapp
     networks:
       - mynetwork
+  fe-shopapp:
+    image: huytg/feshopapp
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "4200:4200"
+    networks:
+      - mynetwork
 networks:
   mynetwork:
